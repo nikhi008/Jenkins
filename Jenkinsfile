@@ -1,15 +1,34 @@
 pipeline {
-  agent any
+agent any
+    tools {
+        maven 'Maven' 
+    }
   stages {
-    stage('build') {
+    stage('test') {
       steps {
-        echo 'compile java files'
+        bat 'mvn --version'
       }
     }
 
-    stage('test') {
+    stage('build') {
       steps {
-        echo 'compile test cases'
+        echo 'test stage'
+      }
+    }
+
+    stage('deploy on test') {
+      steps {
+        echo 'executing deploy on test'
+      }
+    }
+
+    stage('deploy on prod') {
+        input {
+                message "Should we continue?"
+                ok "Yes, we should."
+            }
+      steps {
+        echo 'executing deploy on prod'
       }
     }
 
